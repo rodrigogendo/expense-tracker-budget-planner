@@ -1,5 +1,5 @@
 import { EXPENSE_CATEGORIES, type Expense, type ExpenseCategory } from "../types/expense.ts";
-import type { SavingsEntry, SavingsFrequency } from "../types/savings.ts";
+import type { SavingsEntry } from "../types/savings.ts";
 import { isCurrentMonth } from "./date.ts";
 
 export type DailyTotal = {
@@ -61,18 +61,4 @@ export function dailyTotals(expenses: Expense[]): DailyTotal[] {
 
 export function savingsTotal(entries: SavingsEntry[]): number {
   return entries.reduce((sum, entry) => sum + entry.amount, 0);
-}
-
-export function savingsByFrequency(entries: SavingsEntry[]): Record<SavingsFrequency, number> {
-  return {
-    daily: totalForFrequency(entries, "daily"),
-    weekly: totalForFrequency(entries, "weekly"),
-    monthly: totalForFrequency(entries, "monthly"),
-  };
-}
-
-function totalForFrequency(entries: SavingsEntry[], frequency: SavingsFrequency): number {
-  return entries
-    .filter((entry) => entry.frequency === frequency)
-    .reduce((sum, entry) => sum + entry.amount, 0);
 }

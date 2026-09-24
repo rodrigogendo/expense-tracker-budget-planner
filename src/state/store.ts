@@ -1,5 +1,4 @@
 import { emptyCategoryTotals } from "../functions/money.ts";
-import type { MonthlyBudget } from "../types/budget.ts";
 import type { Expense, ExpenseCategory } from "../types/expense.ts";
 import type { SavingsEntry } from "../types/savings.ts";
 import type { AppState, AppTab } from "../types/ui.ts";
@@ -13,7 +12,6 @@ let state: AppState = {
   expenses: [],
   savings: [],
   budget: {
-    expenseLimit: 0,
     totalBudget: 0,
     byCategory: emptyCategoryTotals(),
   },
@@ -62,10 +60,10 @@ export function deleteExpense(id: string): void {
   });
 }
 
-export function setBudgetFields(fields: Pick<MonthlyBudget, "expenseLimit" | "totalBudget">): void {
+export function setTotalBudget(totalBudget: number): void {
   setState({
     ...state,
-    budget: { ...state.budget, ...fields },
+    budget: { ...state.budget, totalBudget },
   });
 }
 

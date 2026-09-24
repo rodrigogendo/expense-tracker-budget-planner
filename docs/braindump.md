@@ -7,13 +7,13 @@ This project aims to be a fast and clean personal finance tool, allowing the use
 - Add / edit and delete expenses
 - Adding an expense needs a title, value, category and date of transaction
 - Create and track monthly budgets by categories and overall
-- Small card at the top where the user can set a monthly expense limit and total budget
+- Small card at the top where the user can set a monthly total budget and then see budget, spent, and remaining totals
 - The budget value will change according to the expenses and be green in case of positive or red in case of negative spending
 - A dashboard with current month overview, remaining budget and recent transactions
 - A sidebar on the left with the total expenses + total expenses by categories
-- Right above the sidebar, two tabs that switch between Expenses and Savings. The sidebar and main area will switch with a quick and simple visual sliding animation
-- Savings tab will allow the user to input amount saved daily, weekly or monthly
-- A small card with basic reports with daily totals bellow the expense limit and total budget
+- Right above the sidebar, two tabs that switch between Expenses and Savings. The main area uses a quick and simple visual sliding animation, while the sidebar switches panes without sliding to stay within its column
+- Savings tab will allow the user to input an amount saved on a specific date
+- A small card with basic reports with daily totals below the monthly budget summary
 - Fixed categories for expenses: Housing, Utilities, Groceries, Transportation, Healthcare, Entertainment, Others
 
 ## Visual

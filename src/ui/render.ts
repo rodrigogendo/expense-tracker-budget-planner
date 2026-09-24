@@ -23,11 +23,9 @@ const template = `
           <button type="button" data-tab="expenses">Expenses</button>
           <button type="button" data-tab="savings">Savings</button>
         </div>
-        <div class="slide-viewport">
-          <div class="slide-track" data-slide>
-            <div class="pane" id="sidebar-expenses"></div>
-            <div class="pane" id="sidebar-savings"></div>
-          </div>
+        <div class="sidebar-viewport">
+          <div class="sidebar-pane active" data-sidebar-pane="expenses" id="sidebar-expenses"></div>
+          <div class="sidebar-pane" data-sidebar-pane="savings" id="sidebar-savings" hidden></div>
         </div>
       </aside>
       <div class="column-right">
@@ -102,7 +100,7 @@ function renderRemaining(root: HTMLElement, status: Status): void {
   root.innerHTML = `
     <article class="card">
       <h2>This month</h2>
-      <p>Spent ${formatMoney(spent)} / limit ${formatMoney(budget.expenseLimit)}</p>
+      <p>Spent ${formatMoney(spent)} / budget ${formatMoney(budget.totalBudget)}</p>
       <p class="remaining ${remainingClass(remaining)}">Remaining ${formatMoney(remaining)}</p>
     </article>
   `;

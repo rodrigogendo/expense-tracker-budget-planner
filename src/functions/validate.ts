@@ -1,5 +1,4 @@
 import { EXPENSE_CATEGORIES, type ExpenseCategory } from "../types/expense.ts";
-import { SAVINGS_FREQUENCIES, type SavingsFrequency } from "../types/savings.ts";
 import type { FieldErrors } from "../types/ui.ts";
 
 export type ExpenseInput = {
@@ -18,12 +17,12 @@ export type ValidExpense = {
 
 export type SavingsInput = {
   amount: string;
-  frequency: string;
+  date: string;
 };
 
 export type ValidSavings = {
   amount: number;
-  frequency: SavingsFrequency;
+  date: string;
 };
 
 export type ValidationResult<T> =
@@ -51,15 +50,15 @@ export function validateExpense(input: ExpenseInput): ValidationResult<ValidExpe
 export function validateSavings(input: SavingsInput): ValidationResult<ValidSavings> {
   const errors: FieldErrors = {};
   const amount = Number(input.amount);
-  const frequency = input.frequency;
+  const date = input.date.trim();
 
   if (!Number.isFinite(amount) || amount <= 0) errors.amount = "Enter an amount greater than 0.";
-  if (!isSavingsFrequency(frequency)) errors.frequency = "Choose a frequency.";
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) errors.date = "Choose a date.";
 
-  if (Object.keys(errors).length > 0 || !isSavingsFrequency(frequency)) {
+  if (Object.keys(errors).length > 0) {
     return { ok: false, errors };
   }
-  return { ok: true, value: { amount, frequency } };
+  return { ok: true, value: { amount, date } };
 }
 
 export function parseNonNegativeNumber(raw: string): number | null {
@@ -70,8 +69,4 @@ export function parseNonNegativeNumber(raw: string): number | null {
 
 function isExpenseCategory(value: string): value is ExpenseCategory {
   return (EXPENSE_CATEGORIES as readonly string[]).includes(value);
-}
-
-function isSavingsFrequency(value: string): value is SavingsFrequency {
-  return (SAVINGS_FREQUENCIES as readonly string[]).includes(value);
 }

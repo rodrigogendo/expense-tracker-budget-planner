@@ -124,6 +124,20 @@ button {
   align-items: stretch;
 }
 
+.expense-form {
+  display: grid;
+  grid-template-columns: minmax(140px, 2fr) repeat(3, minmax(100px, 1fr)) auto;
+  align-items: end;
+}
+
+.expense-form .form-actions {
+  align-self: end;
+}
+
+.expense-form [data-form-error] {
+  grid-column: 1 / -1;
+}
+
 .compact-form label {
   display: flex;
   flex-direction: column;
@@ -158,6 +172,43 @@ select {
   font-weight: 600;
 }
 
+.budget-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.budget-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  background: var(--surface-2);
+}
+
+.budget-metric + .budget-metric {
+  border-left: 1px solid var(--line);
+}
+
+.budget-metric span {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.budget-metric strong {
+  font-size: 15px;
+}
+
+.budget-summary-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
 .category-list,
 .history-list,
 .daily-list {
@@ -183,12 +234,30 @@ select {
 }
 
 .category-meta {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px;
   gap: 8px;
   align-items: center;
   margin-top: 4px;
   color: var(--muted);
+}
+
+.category-meta > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.category-meta label {
+  min-width: 0;
+  width: 76px;
+}
+
+.category-meta input {
+  width: 76px;
+  min-width: 0;
+  padding-inline: 4px;
 }
 
 .row-actions {
@@ -204,6 +273,14 @@ select {
 
 .slide-viewport {
   overflow: hidden;
+}
+
+.sidebar-viewport {
+  min-width: 0;
+}
+
+.sidebar-pane {
+  width: 100%;
 }
 
 .slide-track {
@@ -228,5 +305,24 @@ select {
 @media (max-width: 800px) {
   .layout {
     grid-template-columns: 1fr;
+  }
+
+  .expense-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .expense-form label:first-child,
+  .expense-form .form-actions,
+  .expense-form [data-form-error] {
+    grid-column: 1 / -1;
+  }
+
+  .budget-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-metric + .budget-metric {
+    border-left: 0;
+    border-top: 1px solid var(--line);
   }
 }

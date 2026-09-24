@@ -50,9 +50,8 @@ Users set and track budgets for the current calendar month.
 
 **Overall budget**
 
-- A compact card at the top lets the user set:
-  - Monthly expense **limit**
-  - **Total budget**
+- A compact card at the top lets the user set the **total budget**.
+- After saving, the card shows the total budget, total spent, and remaining budget.
 - Remaining budget = total budget − sum of expenses in the current month.
 - Remaining amount is **green** when ≥ 0 and **red** when negative (overspent).
 - Changing the limit or total budget recalculates remaining budget and reports immediately.
@@ -92,9 +91,9 @@ Empty dashboard: empty state when there are no expenses yet. Loading state if a 
 
 **Savings tab — sidebar + main area:**
 
-- User logs an amount saved with a frequency: **daily**, **weekly**, or **monthly**.
+- User logs an amount saved with a **date**.
 - Saved entries appear in the savings main view and contribute to a savings total for the session.
-- Sidebar on Savings shows savings totals (overall and, if useful, by frequency).
+- Sidebar on Savings shows the overall savings total and entry count.
 
 **Tab switch:** Sidebar and main area switch together with a short, simple sliding animation. No page reload.
 
@@ -110,7 +109,7 @@ A small card **below** the expense-limit / total-budget card:
 
 ### 6. Savings
 
-- Input: amount + frequency (daily | weekly | monthly)
+- Input: amount + date
 - Add / edit / delete savings entries in the Savings tab
 - Amount must be positive
 - No persistence across refresh (same as expenses)
@@ -249,17 +248,14 @@ type Expense = {
 };
 
 type MonthlyBudget = {
-  expenseLimit: number;
   totalBudget: number;
   byCategory: Record<ExpenseCategory, number>;
 };
 
-type SavingsFrequency = "daily" | "weekly" | "monthly";
-
 type SavingsEntry = {
   id: string;
   amount: number;
-  frequency: SavingsFrequency;
+  date: string; // ISO date YYYY-MM-DD
 };
 
 type AppTab = "expenses" | "savings";
@@ -323,13 +319,13 @@ Money is stored as numbers (currency units). Format for display with a small hel
 
 - [x] Add, edit, and delete expenses with title, value, category, date
 - [x] Categories limited to the seven fixed values
-- [x] Top card sets monthly expense limit and total budget
+- [x] Top card sets the monthly total budget and shows spent and remaining amounts
 - [x] Remaining budget turns green (≥ 0) or red (< 0)
 - [x] Category budgets and category spend visible in the sidebar
 - [x] Dashboard shows current month overview, remaining budget, and transaction history (title — value — category — date)
 - [x] Reports card under the budget card shows daily totals
 - [x] Expenses / Savings tabs sit above the sidebar; both panes slide on switch
-- [x] Savings accepts daily, weekly, or monthly amounts
+- [x] Savings accepts an amount and date
 - [x] Title `$ Flux` is small, top-left, compact spacing
 - [x] Neutral grey UI, rounded cards, not large white blocks
 - [x] No data after refresh

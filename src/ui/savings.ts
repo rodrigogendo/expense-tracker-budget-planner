@@ -1,7 +1,5 @@
-import { SAVINGS_FREQUENCIES } from "../types/savings.ts";
 import {
   formatMoney,
-  savingsByFrequency,
   savingsTotal,
 } from "../functions/money.ts";
 import { validateSavings } from "../functions/validate.ts";
@@ -24,7 +22,7 @@ export function bindSavings(formRoot: HTMLElement, listRoot: HTMLElement): void 
     const data = new FormData(form);
     const result = validateSavings({
       amount: String(data.get("amount") ?? ""),
-      frequency: String(data.get("frequency") ?? ""),
+      date: String(data.get("date") ?? ""),
     });
     const errorBox = form.querySelector("[data-form-error]");
 
@@ -72,11 +70,6 @@ export function renderSavingsForm(root: HTMLElement, status: "loading" | "ready"
   }
 
   const editing = getState().savings.find((item) => item.id === editingId);
-  const options = SAVINGS_FREQUENCIES.map(
-    (item) =>
-      `<option value="${item}" ${item === editing?.frequency ? "selected" : ""}>${item}</option>`,
-  ).join("");
-
   root.innerHTML = `
     <article class="card">
       <h2>${editing ? "Edit savings" : "Log savings"}</h2>
@@ -84,11 +77,8 @@ export function renderSavingsForm(root: HTMLElement, status: "loading" | "ready"
         <label>Amount
           <input name="amount" type="number" min="0.01" step="0.01" value="${editing?.amount ?? ""}">
         </label>
-        <label>Frequency
-          <select name="frequency">
-            <option value="">Select</option>
-            ${options}
-          </select>
+        <label>Date
+          <input name="date" type="date" value="${editing?.date ?? ""}" required>
         </label>
         <div class="form-actions">
           <button type="submit">${editing ? "Save" : "Add"}</button>
@@ -109,12 +99,12 @@ export function renderSavingsList(root: HTMLElement, status: "loading" | "ready"
   const newestFirst = [...getState().savings].reverse();
   const body =
     newestFirst.length === 0
-      ? emptyState("No savings logged yet.", "Add an amount and frequency above.")
+      ? emptyState("No savings logged yet.", "Add an amount and date above.")
       : `<ul class="history-list">${newestFirst
           .map(
             (item) => `
           <li>
-            <span>${formatMoney(item.amount)} — ${escapeHtml(item.frequency)}</span>
+            <span>${formatMoney(item.amount)} — ${escapeHtml(item.date)}</span>
             <span class="row-actions">
               <button type="button" data-action="edit" data-id="${item.id}">Edit</button>
               <button type="button" data-action="delete" data-id="${item.id}">Delete</button>
@@ -138,7 +128,6 @@ export function renderSavingsSidebar(root: HTMLElement, status: "loading" | "rea
   }
 
   const entries = getState().savings;
-  const byFrequency = savingsByFrequency(entries);
   if (entries.length === 0) {
     root.innerHTML = `
       <div class="sidebar-block">
@@ -153,11 +142,7 @@ export function renderSavingsSidebar(root: HTMLElement, status: "loading" | "rea
     <div class="sidebar-block">
       <h2>Savings</h2>
       <p class="total">Total ${formatMoney(savingsTotal(entries))}</p>
-      <ul class="category-list">
-        <li><div class="category-row"><span>Daily</span><span>${formatMoney(byFrequency.daily)}</span></div></li>
-        <li><div class="category-row"><span>Weekly</span><span>${formatMoney(byFrequency.weekly)}</span></div></li>
-        <li><div class="category-row"><span>Monthly</span><span>${formatMoney(byFrequency.monthly)}</span></div></li>
-      </ul>
+      <p class="hint">${entries.length} ${entries.length === 1 ? "entry" : "entries"} logged</p>
     </div>
   `;
 }

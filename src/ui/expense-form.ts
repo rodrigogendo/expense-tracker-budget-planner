@@ -68,7 +68,7 @@ export function renderExpenseForm(root: HTMLElement, status: "loading" | "ready"
   root.innerHTML = `
     <article class="card">
       <h2>${editing ? "Edit expense" : "Add expense"}</h2>
-      <form class="compact-form stack" data-expense-form novalidate>
+      <form class="compact-form expense-form" data-expense-form novalidate>
         <label>Title
           <input name="title" type="text" value="${escapeAttr(String(title))}" required>
         </label>

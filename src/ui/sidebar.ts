@@ -54,7 +54,7 @@ export function renderExpenseSidebar(root: HTMLElement, status: "loading" | "rea
         <div class="category-meta">
           <span>Spent ${formatMoney(categorySpent)}</span>
           <label>Budget
-            <input data-category="${category}" type="number" min="0" step="0.01" value="${categoryBudget}">
+            <input data-category="${category}" type="number" min="0" step="0.01" value="${categoryBudget || ""}" placeholder="0">
           </label>
         </div>
       </li>

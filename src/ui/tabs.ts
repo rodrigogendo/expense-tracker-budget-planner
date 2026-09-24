@@ -18,4 +18,9 @@ export function syncTabUI(root: HTMLElement, tab: AppTab): void {
   root.querySelectorAll<HTMLElement>("[data-slide]").forEach((track) => {
     track.classList.toggle("show-savings", tab === "savings");
   });
+  root.querySelectorAll<HTMLElement>("[data-sidebar-pane]").forEach((pane) => {
+    const isActive = pane.dataset.sidebarPane === tab;
+    pane.classList.toggle("active", isActive);
+    pane.hidden = !isActive;
+  });
 }
