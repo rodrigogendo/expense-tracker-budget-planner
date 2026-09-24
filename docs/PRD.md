@@ -97,17 +97,7 @@ Empty dashboard: empty state when there are no expenses yet. Loading state if a 
 
 **Tab switch:** Sidebar and main area switch together with a short, simple sliding animation. No page reload.
 
-### 5. Reports card
-
-A small card **below** the expense-limit / total-budget card:
-
-- Basic reports: **daily totals** for the current month (sum of expenses per day)
-- Days with no expenses can be omitted or shown as 0; keep the card compact
-- Updates whenever expenses change
-
-
-
-### 6. Savings
+### 5. Savings
 
 - Input: amount + date
 - Add / edit / delete savings entries in the Savings tab
@@ -116,7 +106,7 @@ A small card **below** the expense-limit / total-budget card:
 
 
 
-### 7. UI states (product requirement)
+### 6. UI states (product requirement)
 
 Every list, form, and summary surface must support:
 
@@ -139,7 +129,7 @@ Every list, form, and summary surface must support:
 │ $ Flux                                                  │  ← title, top-left, small
 ├──────────────┬──────────────────────────────────────────┤
 │ Expenses |   │  [ Limit + Total budget card ]           │
-│ Savings      │  [ Daily totals reports card ]           │
+│ Savings      │  [ Budget summary ]                      │
 │              │                                          │
 │ Sidebar      │  Dashboard / Savings main                │
 │ totals +     │  remaining + form + transaction history  │
@@ -150,7 +140,7 @@ Every list, form, and summary surface must support:
 - Compact: tight spacing, low padding and margin, especially around the title.
 - Title `$ Flux` top-left, not large.
 - Cards: rounded corners, grey surfaces, not large white panels.
-- Left: tabs then sidebar. Right: budget card, reports card, then main content.
+- Left: tabs then sidebar. Right: budget summary, then main content.
 
 
 
@@ -215,7 +205,6 @@ src/
     render.ts             # compose layout
     tabs.ts               # Expenses / Savings + slide
     budget-card.ts
-    reports-card.ts
     sidebar.ts
     expense-form.ts
     expense-history.ts    # title — value — category — date
@@ -280,7 +269,6 @@ Money is stored as numbers (currency units). Format for display with a small hel
 | Spent by category      | month expenses                  | record of category → number |
 | Remaining overall      | totalBudget, total spent        | number (green/red in UI)    |
 | Remaining by category  | category budget, category spent | number                      |
-| Daily totals           | month expenses                  | `{ date, total }[]`         |
 | Savings total          | savings entries                 | number                      |
 
 
@@ -307,7 +295,7 @@ Money is stored as numbers (currency units). Format for display with a small hel
 - Persistence and export/import
 - Custom categories
 - Historical month navigation
-- Charts beyond the daily-totals card
+- Charts and reporting beyond the core budget and history views
 - Recurring expenses
 - Multiple currencies
 
@@ -323,7 +311,6 @@ Money is stored as numbers (currency units). Format for display with a small hel
 - [x] Remaining budget turns green (≥ 0) or red (< 0)
 - [x] Category budgets and category spend visible in the sidebar
 - [x] Dashboard shows current month overview, remaining budget, and transaction history (title — value — category — date)
-- [x] Reports card under the budget card shows daily totals
 - [x] Expenses / Savings tabs sit above the sidebar; both panes slide on switch
 - [x] Savings accepts an amount and date
 - [x] Title `$ Flux` is small, top-left, compact spacing

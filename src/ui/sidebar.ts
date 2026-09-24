@@ -15,18 +15,37 @@ export function bindSidebar(root: HTMLElement): void {
   root.addEventListener("change", (event) => {
     const input = event.target;
     if (!(input instanceof HTMLInputElement)) return;
-    const category = EXPENSE_CATEGORIES.find((item) => item === input.dataset.category);
-    if (!category) return;
-
-    const amount = parseNonNegativeNumber(input.value);
-    const errorBox = root.querySelector("[data-category-error]");
-    if (amount === null) {
-      if (errorBox) errorBox.innerHTML = fieldError("Category budgets must be 0 or greater.");
-      return;
-    }
-    if (errorBox) errorBox.innerHTML = "";
-    setCategoryBudget(category, amount);
+    saveCategoryBudget(root, input);
   });
+
+  root.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    const input = event.target;
+    if (!(input instanceof HTMLInputElement)) return;
+    if (!EXPENSE_CATEGORIES.includes(input.dataset.category as (typeof EXPENSE_CATEGORIES)[number])) return;
+
+    event.preventDefault();
+    if (!saveCategoryBudget(root, input)) return;
+
+    const category = input.dataset.category;
+    const renderedInput = root.querySelector<HTMLInputElement>(`input[data-category="${category}"]`);
+    if (renderedInput) renderedInput.value = "";
+  });
+}
+
+function saveCategoryBudget(root: HTMLElement, input: HTMLInputElement): boolean {
+  const category = EXPENSE_CATEGORIES.find((item) => item === input.dataset.category);
+  if (!category) return false;
+
+  const amount = parseNonNegativeNumber(input.value);
+  const errorBox = root.querySelector("[data-category-error]");
+  if (amount === null) {
+    if (errorBox) errorBox.innerHTML = fieldError("Category budgets must be 0 or greater.");
+    return false;
+  }
+  if (errorBox) errorBox.innerHTML = "";
+  setCategoryBudget(category, amount);
+  return true;
 }
 
 export function renderExpenseSidebar(root: HTMLElement, status: "loading" | "ready"): void {

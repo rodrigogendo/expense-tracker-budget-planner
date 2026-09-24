@@ -13,7 +13,6 @@ This project aims to be a fast and clean personal finance tool, allowing the use
 - A sidebar on the left with the total expenses + total expenses by categories
 - Right above the sidebar, two tabs that switch between Expenses and Savings. The main area uses a quick and simple visual sliding animation, while the sidebar switches panes without sliding to stay within its column
 - Savings tab will allow the user to input an amount saved on a specific date
-- A small card with basic reports with daily totals below the monthly budget summary
 - Fixed categories for expenses: Housing, Utilities, Groceries, Transportation, Healthcare, Entertainment, Others
 
 ## Visual

@@ -3,7 +3,6 @@ import { getState, subscribe } from "../state/store.ts";
 import { bindBudgetCard, renderBudgetCard } from "./budget-card.ts";
 import { bindExpenseForm, renderExpenseForm } from "./expense-form.ts";
 import { bindExpenseHistory, renderExpenseHistory } from "./expense-history.ts";
-import { renderReportsCard } from "./reports-card.ts";
 import {
   bindSavings,
   renderSavingsForm,
@@ -30,7 +29,6 @@ const template = `
       </aside>
       <div class="column-right">
         <div id="budget-card"></div>
-        <div id="reports-card"></div>
         <div class="slide-viewport">
           <div class="slide-track" data-slide>
             <div class="pane">
@@ -70,7 +68,6 @@ function paint(app: HTMLElement, status: Status): void {
     const state = getState();
     syncTabUI(app, state.tab);
     renderBudgetCard(must(app, "#budget-card"), status === "loading" ? "loading" : "ready");
-    renderReportsCard(must(app, "#reports-card"), status === "loading" ? "loading" : "ready");
     renderExpenseSidebar(must(app, "#sidebar-expenses"), status === "loading" ? "loading" : "ready");
     renderSavingsSidebar(must(app, "#sidebar-savings"), status === "loading" ? "loading" : "ready");
     renderRemaining(must(app, "#remaining-card"), status);

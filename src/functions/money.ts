@@ -2,11 +2,6 @@ import { EXPENSE_CATEGORIES, type Expense, type ExpenseCategory } from "../types
 import type { SavingsEntry } from "../types/savings.ts";
 import { isCurrentMonth } from "./date.ts";
 
-export type DailyTotal = {
-  date: string;
-  total: number;
-};
-
 export function formatMoney(value: number): string {
   return value.toLocaleString(undefined, {
     minimumFractionDigits: 2,
@@ -47,16 +42,6 @@ export function remainingOverall(totalBudget: number, spent: number): number {
 
 export function remainingByCategory(budget: number, spent: number): number {
   return budget - spent;
-}
-
-export function dailyTotals(expenses: Expense[]): DailyTotal[] {
-  const byDate = new Map<string, number>();
-  for (const expense of expenses) {
-    byDate.set(expense.date, (byDate.get(expense.date) ?? 0) + expense.value);
-  }
-  return [...byDate.entries()]
-    .map(([date, total]) => ({ date, total }))
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 export function savingsTotal(entries: SavingsEntry[]): number {
