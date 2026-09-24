@@ -210,22 +210,19 @@ select {
 }
 
 .category-list,
-.history-list,
-.daily-list {
+.history-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .category-list li,
-.history-list li,
-.daily-list li {
+.history-list li {
   padding: 6px 0;
   border-top: 1px solid var(--line);
 }
 
 .category-row,
-.daily-list li,
 .history-list li {
   display: flex;
   justify-content: space-between;

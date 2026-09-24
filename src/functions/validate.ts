@@ -1,5 +1,6 @@
 import { EXPENSE_CATEGORIES, type ExpenseCategory } from "../types/expense.ts";
 import type { FieldErrors } from "../types/ui.ts";
+import { isValidISODate } from "./date.ts";
 
 export type ExpenseInput = {
   title: string;
@@ -38,7 +39,7 @@ export function validateExpense(input: ExpenseInput): ValidationResult<ValidExpe
 
   if (!title) errors.title = "Enter a title.";
   if (!Number.isFinite(value) || value <= 0) errors.value = "Enter an amount greater than 0.";
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) errors.date = "Choose a date.";
+  if (!isValidISODate(date)) errors.date = "Choose a valid date.";
   if (!isExpenseCategory(category)) errors.category = "Choose a category.";
 
   if (Object.keys(errors).length > 0 || !isExpenseCategory(category)) {
@@ -53,7 +54,7 @@ export function validateSavings(input: SavingsInput): ValidationResult<ValidSavi
   const date = input.date.trim();
 
   if (!Number.isFinite(amount) || amount <= 0) errors.amount = "Enter an amount greater than 0.";
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) errors.date = "Choose a date.";
+  if (!isValidISODate(date)) errors.date = "Choose a valid date.";
 
   if (Object.keys(errors).length > 0) {
     return { ok: false, errors };

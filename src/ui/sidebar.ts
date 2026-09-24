@@ -11,23 +11,35 @@ import { parseNonNegativeNumber } from "../functions/validate.ts";
 import { getState, setCategoryBudget } from "../state/store.ts";
 import { emptyState, fieldError, loadingState } from "./states.ts";
 
+const dismissedBudgetFields = new Set<(typeof EXPENSE_CATEGORIES)[number]>();
+
 export function bindSidebar(root: HTMLElement): void {
   root.addEventListener("change", (event) => {
     const input = event.target;
     if (!(input instanceof HTMLInputElement)) return;
+    const category = EXPENSE_CATEGORIES.find((item) => item === input.dataset.category);
+    if (category) dismissedBudgetFields.delete(category);
     saveCategoryBudget(root, input);
+  });
+
+  root.addEventListener("input", (event) => {
+    const input = event.target;
+    if (!(input instanceof HTMLInputElement)) return;
+    const category = EXPENSE_CATEGORIES.find((item) => item === input.dataset.category);
+    if (category) dismissedBudgetFields.delete(category);
   });
 
   root.addEventListener("keydown", (event) => {
     if (event.key !== "Enter") return;
     const input = event.target;
     if (!(input instanceof HTMLInputElement)) return;
-    if (!EXPENSE_CATEGORIES.includes(input.dataset.category as (typeof EXPENSE_CATEGORIES)[number])) return;
+    const category = EXPENSE_CATEGORIES.find((item) => item === input.dataset.category);
+    if (!category) return;
 
     event.preventDefault();
     if (!saveCategoryBudget(root, input)) return;
 
-    const category = input.dataset.category;
+    dismissedBudgetFields.add(category);
     const renderedInput = root.querySelector<HTMLInputElement>(`input[data-category="${category}"]`);
     if (renderedInput) renderedInput.value = "";
   });
@@ -73,7 +85,7 @@ export function renderExpenseSidebar(root: HTMLElement, status: "loading" | "rea
         <div class="category-meta">
           <span>Spent ${formatMoney(categorySpent)}</span>
           <label>Budget
-            <input data-category="${category}" type="number" min="0" step="0.01" value="${categoryBudget || ""}" placeholder="0">
+            <input data-category="${category}" type="number" min="0" step="0.01" value="${dismissedBudgetFields.has(category) ? "" : categoryBudget || ""}" placeholder="0">
           </label>
         </div>
       </li>

@@ -2,6 +2,7 @@ import {
   formatMoney,
   savingsTotal,
 } from "../functions/money.ts";
+import { todayISO } from "../functions/date.ts";
 import { validateSavings } from "../functions/validate.ts";
 import {
   addSavings,
@@ -78,7 +79,7 @@ export function renderSavingsForm(root: HTMLElement, status: "loading" | "ready"
           <input name="amount" type="number" min="0.01" step="0.01" value="${editing?.amount ?? ""}">
         </label>
         <label>Date
-          <input name="date" type="date" value="${editing?.date ?? ""}" required>
+          <input name="date" type="date" value="${editing?.date ?? todayISO()}" required>
         </label>
         <div class="form-actions">
           <button type="submit">${editing ? "Save" : "Add"}</button>

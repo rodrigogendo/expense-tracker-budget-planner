@@ -11,6 +11,4 @@ export type AppState = {
   budget: MonthlyBudget;
 };
 
-export type ViewStatus = "loading" | "ready" | "error";
-
 export type FieldErrors = Record<string, string>;
